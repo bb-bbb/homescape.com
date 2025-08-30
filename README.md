@@ -1,1 +1,0 @@
-# homescape.com
