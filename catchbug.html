@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Catch the bug!</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #000; /* 배경 어두운 밤 느낌 */
+      }
+
+      #game-area {
+        width: 800%;
+        max-width: 800px;
+        height: 100vh;
+        background-image: url("./medias/realistic\ window\ wit.png");
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .bug {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background-image: url("./medias/Adobe\ Express\ -\ file.png");
+        background-size: cover;
+        cursor: pointer;
+      }
+
+      #score {
+        color: white;
+        font-size: 24px;
+        margin: 10px;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game-area"></div>
+    <div id="score">Score: 0</div>
+
+    <script>
+      let score = 0;
+
+      const smackSound = new Audio("./medias/smack.mp3");
+
+      function spawnBug() {
+        const bug = document.createElement("div");
+        bug.classList.add("bug");
+
+        const gameArea = document.getElementById("game-area");
+        const maxTop = gameArea.clientHeight - 40;
+        const maxLeft = gameArea.clientWidth - 40;
+
+        bug.style.top = Math.random() * maxTop + "px";
+        bug.style.left = Math.random() * maxLeft + "px";
+
+        bug.onclick = () => {
+          score += 1;
+          document.getElementById("score").innerText = "Score: " + score;
+          bug.remove();
+
+          smackSound.currentTime = 0;
+          smackSound.play();
+
+          bug.remove();
+        };
+        gameArea.appendChild(bug);
+        setTimeout(() => bug.remove(), 3000); // 3초 후 자동 제거
+      }
+
+      setInterval(spawnBug, 1000); // 1초마다 벌레 생성
+    </script>
+  </body>
+</html>
